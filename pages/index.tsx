@@ -11,6 +11,12 @@ const IndexPage = (): JSX.Element => {
     if (token && authService.verifyToken(token as string)) {
       authService.stablishSession(token as string)
       router.push('/home')
+    } else {
+      if (
+        authService.getToken() &&
+        authService.verifyToken(authService.getToken())
+      )
+        router.push('/home')
     }
   }, [token])
 
