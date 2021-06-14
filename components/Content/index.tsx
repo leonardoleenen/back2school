@@ -3,7 +3,7 @@ import React from 'react'
 
 const Content = (props): JSX.Element => {
   return (
-    <div>
+    <div className="px-4 py-2">
       <div>{props.children}</div>
     </div>
   )

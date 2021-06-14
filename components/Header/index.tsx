@@ -12,8 +12,8 @@ const Header = (): JSX.Element => {
   if (!user) return <></>
 
   return (
-    <div>
-      <div>{`Welcome ${user.name}`}</div>
+    <div className="bg-indigo-900 pt-16 px-4 pb-8 rounded-b-xl shadow-xl flex justify-center">
+      <div className="text-xl font-bold text-white">{`Welcome ${user.name}`}</div>
     </div>
   )
 }
