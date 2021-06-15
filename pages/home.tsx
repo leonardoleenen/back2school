@@ -41,7 +41,6 @@ const HomePage = (): JSX.Element => {
       <Content>
         <AlumniList />
       </Content>
-      <Footer />
     </Page>
   )
 }

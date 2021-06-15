@@ -19,6 +19,12 @@ class Auth {
     }
   }
 
+  createToken = (user: User): string => {
+    const token = jwt.sign({ user: user }, 'back2school')
+    this.setToken(token)
+    return token
+  }
+
   getUserData = (): User => {
     return jwt.verify(this.getToken(), 'back2school').user
   }

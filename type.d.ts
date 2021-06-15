@@ -10,8 +10,15 @@ type Alumni = {
   firstName: string
   lastName: string
   id: string
-  college: string
+  course: {
+    college: string
+    level: string
+    house: string
+  }
   photo: string
+  securityHeath: string
+  numberSecurityHealth: string
+  genre: 'M' | 'F'
 }
 type Family = {
   familyName: string

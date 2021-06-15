@@ -1,6 +1,8 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import '@firebase/firestore'
+import { randomString } from '../utils'
+import { authService } from './auth.service'
 
 class FirebaseManager {
   private firebaseConfig = JSON.parse(
@@ -72,6 +74,26 @@ class FirebaseManager {
       .doc(userid)
       .get()
       .then(doc => doc.data() as User)
+  }
+
+  createUserAndFamily(user: User, alumnis: Array<Alumni>) {
+    const familyId = randomString()
+    Promise.all(
+      alumnis.map(a => this.getDB().collection('alumni').doc(a.id).set(a))
+    )
+    return Promise.all([
+      this.getDB().collection('users').doc(user.id).set(user),
+      this.getDB()
+        .collection('family')
+        .doc(familyId)
+        .set({
+          familyName: user.name,
+          alumni: alumnis.map(a => a.id),
+          tutors: [user.id]
+        })
+    ])
+      .then(() => authService.createToken(user))
+      .catch(err => console.log(err))
   }
 }
 
