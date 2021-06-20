@@ -22,21 +22,27 @@ export default async function (req, res) {
     absenteTo: raw[1].date
   } */
 
-  console.log(req.body)
+  // console.log(req.body.form_response.answers.map(r => r))
 
   const getDescription = (id) => {
-    return refMap.find(e => e.id ===id).description
- }
+    return refMap.find(e => e.id === id).description
+  }
 
   const refMap = [{
-    id:"01F83TAC2W1Z0R8WJ2A6PVR9VR",
-    description:"fecha_inicio_ausentismo"
+    id: "01F83TAC2W1Z0R8WJ2A6PVR9VR",
+    description: "fecha_inicio_ausentismo"
   }]
 
   const raw = req.body
 
-  const responses = raw.form_response.answers.map(v => {return {...v,description:getDescription(v.field.ref)}})
+  const responses = raw.form_response.answers.map(v => { return { ...v, description: getDescription(v.field.ref) } })
 
+
+  await firebaseManager
+    .getDB()
+    .collection('bucket')
+    .doc(req.body.event_id)
+    .set(req.body)
 
   await firebaseManager
     .getDB()
@@ -44,7 +50,8 @@ export default async function (req, res) {
     .doc(req.body.event_id)
     .set({
       responses,
-      status:'OPEN',
+      payload: req.body,
+      status: 'OPEN',
       createdAt: new Date(),
       creator: JSON.parse(
         Buffer.from(req.body.form_response.hidden.token, 'base64').toString()
