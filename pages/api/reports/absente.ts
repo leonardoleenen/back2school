@@ -23,12 +23,32 @@ export default async function (req, res) {
   } */
 
   console.log(req.body)
+
+  const getDescription = (id) => {
+    return refMap.find(e => e.id ===id).description
+ }
+
+  const refMap = [{
+    id:"01F83TAC2W1Z0R8WJ2A6PVR9VR",
+    description:"fecha_inicio_ausentismo"
+  }]
+
+  const raw = req.body
+
+  const responses = raw.form_response.answers.map(v => {return {...v,description:getDescription(v.field.ref)}})
+
+
   await firebaseManager
     .getDB()
-    .collection('bucket')
+    .collection('cases')
     .doc(req.body.event_id)
     .set({
-      ...req.body,
+      responses,
+      status:'OPEN',
+      createdAt: new Date(),
+      creator: JSON.parse(
+        Buffer.from(req.body.form_response.hidden.token, 'base64').toString()
+      ),
       alumni: JSON.parse(
         Buffer.from(req.body.form_response.hidden.alumni, 'base64').toString()
       )
