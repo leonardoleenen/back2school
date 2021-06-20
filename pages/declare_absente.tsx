@@ -10,7 +10,7 @@ export const DeclareAbsence = (): JSX.Element => {
   const router = useRouter()
   const almuni: Alumni = UIAbsenteStore.useState(s => s.almuniSelected)
 
-  console.log(btoa(JSON.stringify(almuni)))
+
   useEffect(() => {
     createWidget('PMr8Wvb1', {
       container: container.current,
