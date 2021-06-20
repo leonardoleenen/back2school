@@ -14,7 +14,7 @@ export const Card = (props: CardProps): JSX.Element => {
 
   const selectAlumni = (obj: Alumni) => {
     UIAbsenteStore.update(s => {
-      s.almuniSelected = obj
+      s.almuniSelected = almuni
     })
     router.push('/declare_absente')
   }
@@ -23,9 +23,8 @@ export const Card = (props: CardProps): JSX.Element => {
     <div key={props.alumni.id}>
       <article className="bg-gray-200 border border-gray-300 rounded-lg shadow-md text-center mb-4 p-4 mt-12">
         <div
-          className={`flex items-center justify-center m-auto h-16 w-16 -mt-12 rounded-full block shadow-base ${
-            almuni.genre === 'M' ? 'bg-green-500' : 'bg-red-300'
-          }`}
+          className={`flex items-center justify-center m-auto h-16 w-16 -mt-12 rounded-full block shadow-base ${almuni.genre === 'M' ? 'bg-green-500' : 'bg-red-300'
+            }`}
         >
           <div className="text-white text-2xl">
             {almuni.firstName.split(' ').map(n => n[0].toUpperCase())}
