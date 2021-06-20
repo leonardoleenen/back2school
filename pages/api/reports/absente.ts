@@ -35,8 +35,7 @@ export default async function (req, res) {
 
   const raw = req.body
 
-  const responses = raw.form_response.answers.map(v => { return { ...v, description: getDescription(v.field.ref) } })
-
+  
 
   await firebaseManager
     .getDB()
@@ -44,12 +43,21 @@ export default async function (req, res) {
     .doc(req.body.event_id)
     .set(req.body)
 
+  const responses = raw.form_response.answers.map(v => { return { ...v, description: getDescription(v.field.ref) } })
+
+
   await firebaseManager
     .getDB()
     .collection('cases')
     .doc(req.body.event_id)
     .set({
-      responses,
+      responses:[{
+        eventDate:new Date(),
+        creator: JSON.parse(
+          Buffer.from(req.body.form_response.hidden.token, 'base64').toString()
+        ),
+        responses
+      }],
       payload: req.body,
       status: 'OPEN',
       createdAt: new Date(),
