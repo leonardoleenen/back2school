@@ -22,6 +22,7 @@ export default async function (req, res) {
     absenteTo: raw[1].date
   } */
 
+  console.log(req.body)
   await firebaseManager
     .getDB()
     .collection('bucket')

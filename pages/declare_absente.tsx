@@ -16,7 +16,7 @@ export const DeclareAbsence = (): JSX.Element => {
       container: container.current,
       hidden: {
         token: authService.getToken(),
-        almuni: btoa(JSON.stringify(almuni))
+        alumni: btoa(JSON.stringify(almuni))
       }
     })
   }, [])
