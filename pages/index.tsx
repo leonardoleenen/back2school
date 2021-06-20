@@ -18,7 +18,7 @@ const IndexPage = (): JSX.Element => {
       .getFirebaseApp()
       .auth()
       .signInWithPopup(provider)
-      .then(result => {
+      .then(async result => {
         /** @type {firebase.auth.OAuthCredential} */
         const credential = result.credential as firebase.auth.OAuthCredential
 
@@ -27,6 +27,8 @@ const IndexPage = (): JSX.Element => {
         // The signed-in user info.
         const user = result.user
 
+        const registeredUser = await authService.doLogin(user.uid)
+
         UISignUpStore.update(s => {
           s.user = {
             avatar: user.photoURL,
@@ -34,7 +36,13 @@ const IndexPage = (): JSX.Element => {
             name: user.displayName
           }
         })
-        router.push('/signup/welcome')
+
+        if (registeredUser) {
+          authService.createToken(registeredUser)
+          router.push('/home')
+        }
+        else
+          router.push('/signup/welcome')
 
         // ...
       })

@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken'
+import { firebaseManager } from './firebase.service'
+
 
 class Auth {
   setToken = (token: string): void => {
@@ -27,6 +29,18 @@ class Auth {
 
   getUserData = (): User => {
     return jwt.verify(this.getToken(), 'back2school').user
+  }
+
+  doLogin = async (userId): Promise<User>  => {
+    return await firebaseManager
+      .getDB()
+      .collection('users')
+      .doc(userId)
+      .get().then(doc => doc.data() as User)
+  } 
+
+  doLogout = () => {
+    localStorage.clear()
   }
 }
 
