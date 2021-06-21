@@ -35,16 +35,13 @@ export default async function (req, res) {
 
   const raw = req.body
 
-  
-
   await firebaseManager
     .getDB()
     .collection('bucket')
-    .doc(req.body.event_id)
-    .set(req.body)
+    .doc(raw.event_id)
+    .set(raw)
 
   const responses = raw.form_response.answers.map(v => { return { ...v, description: getDescription(v.field.ref) } })
-
 
   await firebaseManager
     .getDB()
@@ -54,7 +51,7 @@ export default async function (req, res) {
       responses:[{
         eventDate:new Date(),
         creator: JSON.parse(
-          Buffer.from(req.body.form_response.hidden.token, 'base64').toString()
+          Buffer.from(raw.form_response.hidden.token, 'base64').toString()
         ),
         responses
       }],
@@ -62,10 +59,10 @@ export default async function (req, res) {
       status: 'OPEN',
       createdAt: new Date(),
       creator: JSON.parse(
-        Buffer.from(req.body.form_response.hidden.token, 'base64').toString()
+        Buffer.from(raw.form_response.hidden.token, 'base64').toString()
       ),
       alumni: JSON.parse(
-        Buffer.from(req.body.form_response.hidden.alumni, 'base64').toString()
+        Buffer.from(raw.form_response.hidden.alumni, 'base64').toString()
       )
     })
   res.send('done')
