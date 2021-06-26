@@ -11,6 +11,15 @@ const WelcomePage = (): JSX.Element => {
   }, [])
 
   if (!user) return <div>Redirect...</div>
+
+  const handleCancelSignUp = () => {
+    UISignUpStore.update(s => {
+      s.alumnis = []
+      s.user = null
+    })
+    router.push('/')
+  }
+
   return (
     <div>
       <section className="bg-indigo-900 pt-10 pb-6 rounded-b-xl shadow-xl flex justify-center">
@@ -37,12 +46,12 @@ const WelcomePage = (): JSX.Element => {
         >
           Continuar
         </button>
-        <a
-          href=""
+        <div
+          onClick={handleCancelSignUp}
           className="text-center block text-sm font-semibold text-gray-600"
         >
-          Cerrar sesión
-        </a>
+          Cancelar registro
+        </div>
       </section>
     </div>
   )

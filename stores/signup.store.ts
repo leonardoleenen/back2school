@@ -9,3 +9,5 @@ export const UISignUpStore = new Store<IUISignUpStore>({
   user: null,
   alumnis: []
 })
+
+
