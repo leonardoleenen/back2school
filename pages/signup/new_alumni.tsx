@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
-import { Input, DatePicker, Space, Select } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Input, DatePicker, Space, Select, Button, Form } from 'antd'
 import { UISignUpStore } from '../../stores/signup.store'
 import { useRouter } from 'next/router'
 const { Option } = Select
+import { useForm } from "react-hook-form";
+import { RequiredMark } from 'antd/lib/form/Form'
+
+// TODO: Complete load static houses 
 
 const houses = [
   {
@@ -61,10 +65,18 @@ const levels = [
 ]
 
 const NewAlumni = (): JSX.Element => {
+
+  const [form] = Form.useForm()
   const user: User = UISignUpStore.useState(s => s.user)
   const alumnis = UISignUpStore.useState(s => s.alumnis)
   const router = useRouter()
   const [houseSelected, setHouseSelected] = useState(null)
+  const [level, setLevel] = useState(null)
+  const [, forceUpdate] = useState({});
+
+  useEffect(() => {
+    forceUpdate({});
+  }, []);
 
   const [alumni, setAlumni] = useState<Alumni>({
     firstName: '',
@@ -81,16 +93,29 @@ const NewAlumni = (): JSX.Element => {
     genre: 'M'
   })
 
-  const save = () => {
+
+
+
+  const save = (data) => {
+
+    console.log(data)
     UISignUpStore.update(s => {
       const copyList = Object.assign([], alumnis)
       copyList.push(alumni)
       s.alumnis = copyList
     })
-    router.push('/signup/alumnis')
+    // router.push('/signup/alumnis')
   }
 
-  console.log(houseSelected)
+  const checkIfAlreadyExist = () => {
+    // TODO: Verify if alumni already exist and avoid register
+  }
+
+
+  console.log(form.isFieldsTouched(true))
+
+
+
   return (
     <div>
       <section className="bg-indigo-900 pt-6 pb-4 rounded-b-xl shadow-xl flex justify-center">
@@ -108,58 +133,61 @@ const NewAlumni = (): JSX.Element => {
           />
           <p className="text-sm text-gray-600 pt-2">Agregar foto</p>
         </div>
-        <form>
+        <Form
+          form={form}
+          onFinish={save}
+
+        >
           <div className="mb-6">
             <p className="text-sm text-gray-900 mb-2 font-semibold">
               Datos personales
             </p>
-            <label className="mb-3 block">
+            <Form.Item
+              name="firstName"
+              rules={[{ required: true, message: 'Please input your first name' }]}
+            >
               <Input
                 style={{ borderRadius: 8 }}
-                value={alumni.firstName}
-                onChange={value => {
-                  alumni.firstName = value.target.value
-                  setAlumni(Object.assign({}, alumni))
-                }}
                 className="py-2 px-3 text-gray-500 text-sm border border-gray-300 block w-full"
                 placeholder="Nombre"
               />
-            </label>
-            <label className="mb-3 block">
-              <Input
+            </Form.Item>
+            <Form.Item
+              name="lastName"
+              rules={[{ required: true, message: 'Please input your first name' }]}
+            ><Input
                 style={{ borderRadius: 8 }}
-                value={alumni.lastName}
-                onChange={value => {
-                  alumni.lastName = value.target.value
-                  setAlumni(Object.assign({}, alumni))
-                }}
                 className="py-2 px-3 text-gray-500 text-sm border border-gray-300 block w-full"
                 placeholder="Apellido"
-              />
-            </label>
-            <label className="mb-3 block">
+              /></Form.Item>
+
+            <Form.Item
+
+              name="dni"
+              rules={[{ required: true, message: 'Por favor, ingrese su DNI' }]}
+            >
               <Input
                 type="number"
-                value={alumni.id}
-                onChange={value => {
-                  alumni.id = value.target.value
-                  setAlumni(Object.assign({}, alumni))
-                }}
                 style={{ borderRadius: 8 }}
                 className="py-2 px-3 text-gray-500 text-sm border border-gray-300 block w-full"
                 placeholder="DNI"
               />
-            </label>
-            <label className="mb-3 block">
-              <Space direction="vertical" className="w-full">
-                <DatePicker
-                  style={{ borderRadius: 8 }}
-                  placeholder="Fecha de nacimiento"
-                  className="w-full"
-                />
-              </Space>
-            </label>
-            <label className="mb-3 block">
+            </Form.Item>
+            <Form.Item
+
+              name="birthDay"
+              rules={[{ required: true, message: 'Por favor, la fecha de nacimiento' }]}
+            ><DatePicker
+                style={{ borderRadius: 8 }}
+                placeholder="Fecha de nacimiento"
+                className="w-full"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="genre"
+              rules={[{ required: true, message: 'Por favor, indique el genero' }]}
+            >
               <Select
                 value={alumni.genre}
                 onChange={value => {
@@ -172,39 +200,51 @@ const NewAlumni = (): JSX.Element => {
                 <Option value="M">Masculino</Option>
                 <Option value="F">Femenino</Option>
               </Select>
-            </label>
+            </Form.Item>
           </div>
+
           <div className="mb-6">
             <p className="text-sm text-gray-900 mb-2 font-semibold">
               Cobertura médica
             </p>
-            <label className="mb-3 block">
+            <Form.Item
+              name="healthInsurance"
+              rules={[{ required: true, message: 'Por favor, su obra social o prepaga ' }]}
+            >
               <Input
                 style={{ borderRadius: 8 }}
                 className="py-2 px-3 text-gray-500 text-sm border border-gray-300 block w-full"
                 placeholder="Obra Social"
               />
-            </label>
-            <label className="mb-3 block">
+            </Form.Item>
+
+            <Form.Item
+              name="securityNumber"
+              rules={[{ required: true, message: 'Por favor, su número de afiliado ' }]}
+            >
               <Input
                 style={{ borderRadius: 8 }}
                 type="number"
                 className="py-2 px-3 text-gray-500 text-sm border border-gray-300 block w-full"
                 placeholder="Número de afiliado"
               />
-            </label>
+            </Form.Item>
           </div>
-          <div className="mb-6">
+          <div className="mb-6 mt-8">
             <p className="text-sm text-gray-900 mb-2 font-semibold">
               Institucional
             </p>
-            <label className="mb-3 block">
+            <Form.Item
+              name="college"
+            >
               <Select defaultValue="Sede" className="w-full">
                 <Option value="QUILMES">Quilmes</Option>
                 <Option value="NORTE">Norte</Option>
               </Select>
-            </label>
-            <label className="mb-3 block">
+            </Form.Item>
+            <Form.Item
+              name="house"
+            >
               <Select
                 defaultValue="House"
                 className="w-full"
@@ -221,10 +261,14 @@ const NewAlumni = (): JSX.Element => {
                     </Option>
                   ))}
               </Select>
-            </label>
-            <label className="mb-3 block">
-              <Select defaultValue="Curso" className="w-full">
-                <Option value="k1s">K1 S</Option>
+            </Form.Item>
+            <Form.Item
+              name="level"
+            >
+              <Select
+                defaultValue="Curso"
+                onChange={el => setLevel(el)}
+                className="w-full">
                 {houseSelected &&
                   levels
                     .filter(l => l.parent === houseSelected.parent)[0]
@@ -234,23 +278,29 @@ const NewAlumni = (): JSX.Element => {
                       </Option>
                     ))}
               </Select>
-            </label>
+            </Form.Item>
           </div>
-        </form>
-        <div className="pt-6">
-          <button
-            onClick={save}
-            className="w-full rounded-lg bg-red-500 shadow-base p-2 text-white text-sm mb-3"
-          >
-            Guardar alumno
+
+          <div className="pt-6">
+            <Button
+              type='primary'
+              htmlType="submit"
+              disabled={
+                !form.isFieldsTouched(true) ||
+                !!form.getFieldsError().filter(({ errors }) => errors.length).length
+              }
+              className="w-full rounded-lg bg-red-500 shadow-base  text-white text-sm mb-3"
+            >
+              Guardar alumno
+          </Button>
+            <button
+              onClick={() => router.push('/signup/alumnis')}
+              className="text-center w-full block text-sm font-semibold text-gray-600"
+            >
+              Cancelar
           </button>
-          <button
-            onClick={() => router.push('/signup/alumnis')}
-            className="text-center w-full block text-sm font-semibold text-gray-600"
-          >
-            Cancelar
-          </button>
-        </div>
+          </div>
+        </Form>
       </section>
     </div>
   )
