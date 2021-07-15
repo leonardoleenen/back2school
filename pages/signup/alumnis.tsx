@@ -16,8 +16,7 @@ const AlumnisPage = (): JSX.Element => {
   }
   const save = () => {
     setIsSaving(true)
-    firebaseManager.createUserAndFamily(user, alumnis).then(result => {
-      console.log(result)
+    firebaseManager.createUserAndFamily(user, alumnis).then(() => {
       router.push('/home')
     })
   }
@@ -82,12 +81,12 @@ const AlumnisPage = (): JSX.Element => {
         >
           Finalizar
         </button>
-        <a
-          href=""
+        <div
+          onClick={() => router.push('/')}
           className="text-center block text-sm font-semibold text-gray-600"
         >
           Cerrar sesión
-        </a>
+        </div>
       </section>
     </div>
   )

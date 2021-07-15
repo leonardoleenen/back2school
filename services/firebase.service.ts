@@ -81,6 +81,7 @@ class FirebaseManager {
     Promise.all(
       alumnis.map(a => this.getDB().collection('alumni').doc(a.id).set(a))
     )
+
     return Promise.all([
       this.getDB().collection('users').doc(user.id).set(user),
       this.getDB()

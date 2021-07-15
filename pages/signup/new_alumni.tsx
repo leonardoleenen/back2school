@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Input, DatePicker, Space, Select, Button, Form } from 'antd'
 import { UISignUpStore } from '../../stores/signup.store'
 import { useRouter } from 'next/router'
-const { Option } = Select
-import { useForm } from "react-hook-form";
-import { RequiredMark } from 'antd/lib/form/Form'
 
-// TODO: Complete load static houses 
+const { Option } = Select
+
+// TODO: Complete load static houses
 
 const houses = [
   {
@@ -65,18 +64,17 @@ const levels = [
 ]
 
 const NewAlumni = (): JSX.Element => {
-
   const [form] = Form.useForm()
   const user: User = UISignUpStore.useState(s => s.user)
   const alumnis = UISignUpStore.useState(s => s.alumnis)
   const router = useRouter()
   const [houseSelected, setHouseSelected] = useState(null)
   const [level, setLevel] = useState(null)
-  const [, forceUpdate] = useState({});
+  const [, forceUpdate] = useState({})
 
   useEffect(() => {
-    forceUpdate({});
-  }, []);
+    forceUpdate({})
+  }, [])
 
   const [alumni, setAlumni] = useState<Alumni>({
     firstName: '',
@@ -93,28 +91,25 @@ const NewAlumni = (): JSX.Element => {
     genre: 'M'
   })
 
-
-
-
-  const save = (data) => {
-
-    console.log(data)
+  const save = data => {
     UISignUpStore.update(s => {
       const copyList = Object.assign([], alumnis)
-      copyList.push(alumni)
+
+      copyList.push({
+        ...data,
+        birthDay: data.birthDay.toDate()
+      })
       s.alumnis = copyList
     })
-    // router.push('/signup/alumnis')
+
+    router.push('/signup/alumnis')
   }
 
   const checkIfAlreadyExist = () => {
     // TODO: Verify if alumni already exist and avoid register
   }
 
-
   console.log(form.isFieldsTouched(true))
-
-
 
   return (
     <div>
@@ -133,18 +128,16 @@ const NewAlumni = (): JSX.Element => {
           />
           <p className="text-sm text-gray-600 pt-2">Agregar foto</p>
         </div>
-        <Form
-          form={form}
-          onFinish={save}
-
-        >
+        <Form form={form} onFinish={save}>
           <div className="mb-6">
             <p className="text-sm text-gray-900 mb-2 font-semibold">
               Datos personales
             </p>
             <Form.Item
               name="firstName"
-              rules={[{ required: true, message: 'Please input your first name' }]}
+              rules={[
+                { required: true, message: 'Please input your first name' }
+              ]}
             >
               <Input
                 style={{ borderRadius: 8 }}
@@ -154,16 +147,19 @@ const NewAlumni = (): JSX.Element => {
             </Form.Item>
             <Form.Item
               name="lastName"
-              rules={[{ required: true, message: 'Please input your first name' }]}
-            ><Input
+              rules={[
+                { required: true, message: 'Please input your first name' }
+              ]}
+            >
+              <Input
                 style={{ borderRadius: 8 }}
                 className="py-2 px-3 text-gray-500 text-sm border border-gray-300 block w-full"
                 placeholder="Apellido"
-              /></Form.Item>
+              />
+            </Form.Item>
 
             <Form.Item
-
-              name="dni"
+              name="id"
               rules={[{ required: true, message: 'Por favor, ingrese su DNI' }]}
             >
               <Input
@@ -174,10 +170,12 @@ const NewAlumni = (): JSX.Element => {
               />
             </Form.Item>
             <Form.Item
-
               name="birthDay"
-              rules={[{ required: true, message: 'Por favor, la fecha de nacimiento' }]}
-            ><DatePicker
+              rules={[
+                { required: true, message: 'Por favor, la fecha de nacimiento' }
+              ]}
+            >
+              <DatePicker
                 style={{ borderRadius: 8 }}
                 placeholder="Fecha de nacimiento"
                 className="w-full"
@@ -186,7 +184,9 @@ const NewAlumni = (): JSX.Element => {
 
             <Form.Item
               name="genre"
-              rules={[{ required: true, message: 'Por favor, indique el genero' }]}
+              rules={[
+                { required: true, message: 'Por favor, indique el genero' }
+              ]}
             >
               <Select
                 value={alumni.genre}
@@ -209,7 +209,12 @@ const NewAlumni = (): JSX.Element => {
             </p>
             <Form.Item
               name="healthInsurance"
-              rules={[{ required: true, message: 'Por favor, su obra social o prepaga ' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Por favor, su obra social o prepaga '
+                }
+              ]}
             >
               <Input
                 style={{ borderRadius: 8 }}
@@ -220,7 +225,9 @@ const NewAlumni = (): JSX.Element => {
 
             <Form.Item
               name="securityNumber"
-              rules={[{ required: true, message: 'Por favor, su número de afiliado ' }]}
+              rules={[
+                { required: true, message: 'Por favor, su número de afiliado ' }
+              ]}
             >
               <Input
                 style={{ borderRadius: 8 }}
@@ -234,17 +241,13 @@ const NewAlumni = (): JSX.Element => {
             <p className="text-sm text-gray-900 mb-2 font-semibold">
               Institucional
             </p>
-            <Form.Item
-              name="college"
-            >
+            <Form.Item name="college">
               <Select defaultValue="Sede" className="w-full">
                 <Option value="QUILMES">Quilmes</Option>
                 <Option value="NORTE">Norte</Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              name="house"
-            >
+            <Form.Item name="house">
               <Select
                 defaultValue="House"
                 className="w-full"
@@ -262,13 +265,12 @@ const NewAlumni = (): JSX.Element => {
                   ))}
               </Select>
             </Form.Item>
-            <Form.Item
-              name="level"
-            >
+            <Form.Item name="level">
               <Select
                 defaultValue="Curso"
                 onChange={el => setLevel(el)}
-                className="w-full">
+                className="w-full"
+              >
                 {houseSelected &&
                   levels
                     .filter(l => l.parent === houseSelected.parent)[0]
@@ -283,22 +285,23 @@ const NewAlumni = (): JSX.Element => {
 
           <div className="pt-6">
             <Button
-              type='primary'
+              type="primary"
               htmlType="submit"
               disabled={
                 !form.isFieldsTouched(true) ||
-                !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                !!form.getFieldsError().filter(({ errors }) => errors.length)
+                  .length
               }
               className="w-full rounded-lg bg-red-500 shadow-base  text-white text-sm mb-3"
             >
               Guardar alumno
-          </Button>
+            </Button>
             <button
               onClick={() => router.push('/signup/alumnis')}
               className="text-center w-full block text-sm font-semibold text-gray-600"
             >
               Cancelar
-          </button>
+            </button>
           </div>
         </Form>
       </section>

@@ -24,37 +24,39 @@ export default async function (req, res) {
 
   // console.log(req.body.form_response.answers.map(r => r))
 
-  const getDescription = (id) => {
+  const getDescription = id => {
     return refMap.find(e => e.id === id).description
   }
 
-  const refMap = [{
-    id: "01F83TAC2W1Z0R8WJ2A6PVR9VR",
-    description: "fecha_inicio_ausentismo"
-  }]
+  const refMap = [
+    {
+      id: '01F83TAC2W1Z0R8WJ2A6PVR9VR',
+      description: 'fecha_inicio_ausentismo'
+    }
+  ]
 
   const raw = req.body
 
-  await firebaseManager
-    .getDB()
-    .collection('bucket')
-    .doc(raw.event_id)
-    .set(raw)
+  await firebaseManager.getDB().collection('bucket').doc(raw.event_id).set(raw)
 
-  const responses = raw.form_response.answers.map(v => { return { ...v, description: getDescription(v.field.ref) } })
+  const responses = raw.form_response.answers.map(v => {
+    return { ...v, description: getDescription(v.field.ref) }
+  })
 
   await firebaseManager
     .getDB()
     .collection('cases')
     .doc(req.body.event_id)
     .set({
-      responses:[{
-        eventDate:new Date(),
-        creator: JSON.parse(
-          Buffer.from(raw.form_response.hidden.token, 'base64').toString()
-        ),
-        responses
-      }],
+      responses: [
+        {
+          eventDate: new Date(),
+          creator: JSON.parse(
+            Buffer.from(raw.form_response.hidden.token, 'base64').toString()
+          ),
+          responses
+        }
+      ],
       payload: req.body,
       status: 'OPEN',
       createdAt: new Date(),
