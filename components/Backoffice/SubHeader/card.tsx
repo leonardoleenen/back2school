@@ -8,10 +8,17 @@ interface Props {
 }
 const Card = (props: Props): JSX.Element => {
   return (
-    <div>
-      <div>{props.title}</div>
-      <div>{props.subTitle}</div>
-      <div>{props.description}</div>
+    <div
+      style={{ minWidth: '180px' }}
+      className={`${
+        props.isImportant
+          ? 'bg-blue-500  text-white '
+          : 'bg-gray-100 text-gray-700'
+      } rounded-lg px-8 py-4 opacity-90`}
+    >
+      <div className="text-xl font-semibold">{props.title}</div>
+      <div className="font-thin text-xs">{props.subTitle}</div>
+      <div className="font-regular ">{props.description}</div>
     </div>
   )
 }

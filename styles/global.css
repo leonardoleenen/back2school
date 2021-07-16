@@ -7,3 +7,133 @@
   font-family: 'Poppins', sans-serif;
 }
 @tailwind utilities;
+
+
+h2 {
+  text-align: left;
+  font: normal normal 600 18px/27px Poppins;
+  letter-spacing: 0.1px;
+  color: #324483 !important;
+  opacity: 1;
+}
+
+h3 {
+  text-align: left;
+  font: normal normal normal 14px/21px Poppins;
+  letter-spacing: 0.1px;
+  color: #717480 !important;
+  opacity: 1;
+}
+
+
+
+th.ant-table-cell {
+  text-align: left !important;
+  letter-spacing: 0.87px !important;
+  color: #324483 !important;
+  opacity: 1 !important;
+  font-family: "Poppins" !important;
+  background-color: white !important;
+  font-size: 12px;
+}
+
+th.ant-table-cell::before {
+  width: 0px !important;
+}
+
+td.ant-table-cell {
+  border-bottom: 0px solid white !important;
+  font-family: "Poppins" !important;
+  font-size: 14px !important;
+}
+
+th.ant-table-cell {
+  border-bottom: 0px solid white !important;
+  border-left: 0px solid white !important;
+  border-right: solid white !important;
+
+  /*text-align: left !important;
+  letter-spacing: 0.2px  !important;
+  color: #171725 !important;
+  opacity: 1 !important;
+  font-family: 'Poppins' !important;
+  font-size: 14px !important;*/
+}
+
+tr:nth-child(even) {
+  background: white !important;
+}
+
+tr:nth-child(odd) {
+  background: #32448308 0% 0% no-repeat padding-box !important;
+}
+
+ tbody tr:nth-child(2n + 3) {
+  background: #32448308 0% 0% no-repeat padding-box !important;
+}
+
+tbody tr:first-child {
+  background: #32448308 0% 0% no-repeat padding-box !important;
+}
+
+th.ant-table-cell {
+  text-align: left !important;
+  letter-spacing: 0.87px !important;
+  color: #324483 !important;
+  opacity: 1 !important;
+  font-family: "Poppins" !important;
+  font-weight: 600;
+  background-color: white !important;
+  font-size: 12px;
+}
+
+th.ant-table-cell::before {
+  width: 0px !important;
+}
+
+div.ant-table-filter-column {
+  justify-content: left !important;
+}
+
+td.ant-table-cell {
+  border-bottom: 0px solid white !important;
+  font-family: "Poppins" !important;
+  font-size: 14px !important;
+}
+
+th.ant-table-cell {
+  border-bottom: 0px solid white !important;
+  border-left: 0px solid white !important;
+  border-right: solid white !important;
+}
+
+tbody tr:nth-child(2n + 3) {
+  background: #32448308 0% 0% no-repeat padding-box;
+}
+
+tbody tr:first-child {
+  background: #32448308 0% 0% no-repeat padding-box;
+}
+
+tr.ant-table-placeholder {
+  background: white !important;
+}
+
+.ant-table-body::-webkit-scrollbar {
+  display: none;
+}
+
+.ant-table-column-sorter {
+  visibility: collapse;
+}
+
+tr.ant-table-row {
+  font-size: 14px !important;
+  letter-spacing: 0.2px;
+  color: #171725;
+  opacity: 1;
+}
+
+.ant-table-body::-webkit-scrollbar {
+  display: none;
+}
