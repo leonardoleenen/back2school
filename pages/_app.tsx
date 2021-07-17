@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppProps } from 'next/app'
-import '../styles/global.css'
 import 'antd/dist/antd.css'
+import '../styles/global.scss'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return <Component {...pageProps} />
