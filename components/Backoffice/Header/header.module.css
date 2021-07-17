@@ -1,10 +1,10 @@
 .backofficeHeader {
-  @apply  h-20 flex items-center border-blue-50 border;
+  @apply  h-20 flex items-center border-blue-50 border w-full justify-between;
 }
 
 .backofficeHeader .logo {
   background: #3179FF 0% 0% no-repeat padding-box;
-opacity: 1;
+  opacity: 1;
   color: white;
   @apply  p-6 text-2xl;
 

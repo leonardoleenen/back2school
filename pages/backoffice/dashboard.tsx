@@ -55,7 +55,7 @@ export default () => {
                   <div className="flex items-center text-gray-500">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
+                      className="h-6 w-6 text-green-700"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -67,14 +67,16 @@ export default () => {
                         d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
                       />
                     </svg>
-                    <div>Good</div>
+                    <div className="pl-1">
+                      2 Children back to school this week
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-center text-gray-500 ml-4 ">
+                <div className="flex items-center text-gray-500 ml-6 ">
                   <div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
+                      className="h-6 w-6 text-red-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -87,7 +89,7 @@ export default () => {
                       />
                     </svg>
                   </div>
-                  <div>bad</div>
+                  <div className="pl-1"> 3 children not show today</div>
                 </div>
               </div>
             </div>
@@ -95,8 +97,8 @@ export default () => {
         </div>
       </div>
       <Divider className="bg-blue-50" />
-      <section className="flex pl-8 justify-center">
-        <div className="flex" style={{ maxWidth: '1440px' }}>
+      <section className="flex p-8 justify-center">
+        <div className="flex w-full px-8" style={{ maxWidth: '1440px' }}>
           <div className="">
             <Statistics />
           </div>

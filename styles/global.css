@@ -98,7 +98,10 @@ div.ant-table-filter-column {
 td.ant-table-cell {
   border-bottom: 0px solid white !important;
   font-family: "Poppins" !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.2px !important;
+  color: #171725 !important;
+  opacity: 1;
 }
 
 th.ant-table-cell {

@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Button, Table } from 'antd'
 import React from 'react'
 import moment from 'moment'
 
@@ -10,14 +10,45 @@ const data = [
     house: 'House',
     level: 'E1',
     date: '2021-07-14'
+  },
+  {
+    id: '2',
+    name: 'Martina Gutierrez',
+    college: 'Quilmes',
+    house: 'Stevensone',
+    level: 'S5',
+    date: '2021-07-12'
+  },
+  {
+    id: '3',
+    name: 'Micaela Martinez',
+    college: 'Quilmes',
+    house: 'Haxell',
+    level: 'E3',
+    date: '2021-07-16'
+  },
+  {
+    id: '4',
+    name: 'Gustavo Gonalez',
+    college: 'Quilmes',
+    house: 'Haxell',
+    level: 'E3',
+    date: '2021-07-16'
   }
 ]
 const DailyAbsent = (): JSX.Element => {
   return (
     <div>
-      <div>
-        <h2>{`Daily Absent children's`}</h2>
-        <h3>16 children absent in this week</h3>
+      <div className="flex justify-between">
+        <div>
+          <h2>{`Daily Absent children's`}</h2>
+          <h3>16 children absent in this week</h3>
+        </div>
+        <div>
+          <Button type="primary">Weekly</Button>
+          <Button>Monthy</Button>
+          <Button>Year</Button>
+        </div>
       </div>
       <Table pagination={false} dataSource={data}>
         <Table.Column
