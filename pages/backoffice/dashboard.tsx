@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../components/Backoffice/Header'
 import SubHeader from '../../components/Backoffice/SubHeader'
 import SVGBackToSchool from '../../components/SVG/back2school'
@@ -7,7 +7,14 @@ import { Divider } from 'antd'
 import Statistics from '../../components/Backoffice/Dashboard/Statistics'
 import DailyAbsent from '../../components/Backoffice/Dashboard/DailyAbsent'
 
+import { UIHeaderStore } from '../../stores/header.store'
+
 export default () => {
+  useEffect(() => {
+    UIHeaderStore.update(s => {
+      s.selectedTab = 'DASHBOARD'
+    })
+  }, [])
   return (
     <div>
       <Header />

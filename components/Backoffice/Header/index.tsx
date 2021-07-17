@@ -1,41 +1,80 @@
 import { Avatar, Badge, Space } from 'antd'
 import React from 'react'
 import styles from './header.module.css'
+import { useRouter } from 'next/router'
+import { UIHeaderStore } from '../../../stores/header.store'
 
-const DashBoard = ({ selected }) => {
-  return (
-    <div
-      className={`flex ml-8 items-center ${
-        selected ? 'text-blue-500 font-semibold' : 'text-gray-600'
-      }`}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-6 w-6 "
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={selected ? 2 : 1}
-          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-        />
-      </svg>
-      <div className="ml-2">Dashboard</div>
-    </div>
-  )
-}
 const Header = (): JSX.Element => {
+  const selectedTab = UIHeaderStore.useState(s => s.selectedTab)
+
+  const router = useRouter()
+
+  const DashBoard = ({ selected }) => {
+    return (
+      <div
+        onClick={() => router.push('/backoffice/dashboard')}
+        className={`flex ml-8 items-center  cursor-pointer ${
+          selected ? 'text-blue-500 font-semibold' : 'text-gray-600'
+        }`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 "
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={selected ? 2 : 1}
+            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+          />
+        </svg>
+        <div className="ml-2">Dashboard</div>
+      </div>
+    )
+  }
+
+  const Access = ({ selected }) => {
+    return (
+      <div
+        onClick={() => router.push('/backoffice/access')}
+        className={`flex ml-8 items-center cursor-pointer ${
+          selected ? 'text-blue-500 font-semibold' : 'text-gray-500'
+        }`}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+          />
+        </svg>
+        <div className="ml-2">Access / Invites</div>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.backofficeHeader}>
       <div className="flex">
         <div>
           <div className={styles.logo}>Back 2 School</div>
         </div>
-        <DashBoard selected={true} />
+        <Space size="large">
+          <DashBoard selected={selectedTab === 'DASHBOARD'} />
+          <Access selected={selectedTab === 'ACCESS'} />
+        </Space>
       </div>
+
       <div className="flex px-8 ">
         <Space size="large" className=" flex items-center">
           <div>
