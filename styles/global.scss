@@ -141,3 +141,43 @@ tr.ant-table-row {
 .ant-table-body::-webkit-scrollbar {
   display: none;
 }
+
+.ant-drawer-title {
+    text-align: left !important;
+    font: normal normal 600 18px/27px Poppins !important;
+    letter-spacing: 0.1px !important;
+    color: #324483 !important;
+    opacity: 1 !important;
+}
+
+.ant-input  {
+    --tw-border-opacity: 1 !important;
+    color: #324483 !important;
+    font: normal normal normal 16px/25px Poppins !important;
+    letter-spacing: 0.1px !important;
+    border-bottom: 1px solid #9CA3AF  !important;
+}
+
+.ant-input :focus  {
+    --tw-border-opacity: 1 !important;
+    border-bottom: 2px solid #1E40AF  !important;
+}
+
+.ant-form-item-label {
+    text-align: left !important;
+    //font: normal normal normal 12px/22px Poppins !important;
+    font-size: 12px !important;
+    letter-spacing: 0px !important;
+    color: #717480 !important;
+    opacity: 0.6 !important;
+}
+
+label {
+    font-size: 12px !important;
+    letter-spacing: 0px !important;
+    color: #717480 !important;
+    opacity: 0.6 !important;
+}
+.ant-drawer-header {
+    display: none !important;
+}

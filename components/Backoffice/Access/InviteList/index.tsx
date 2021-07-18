@@ -1,5 +1,5 @@
-import { Button, Table } from 'antd'
-import React from 'react'
+import { Button, Drawer, Form, Input, Table } from 'antd'
+import React, { useState } from 'react'
 
 const data = [
     {
@@ -17,15 +17,89 @@ const data = [
         status: 'ACCEPTED' // PENDING ACEPTED CANCELLED
     }
 ]
+
+interface DrawerHeaderProps {
+    title: string
+    onClose: () => void
+    onSave: () => void
+}
+
+const DrawerHeader = (props: DrawerHeaderProps) => {
+    return (
+        <div className="mb-20">
+            <div className="flex justify-between items-center">
+                <div className="cursor-pointer">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1}
+                            d="M6 18L18 6M6 6l12 12"
+                        />
+                    </svg>
+                </div>
+                <Button className="rounded-lg" type="primary">
+                    Save changes
+                </Button>
+            </div>
+            <div className="pt-6">
+                <h2>{props.title}</h2>
+            </div>
+        </div>
+    )
+}
 export default (): JSX.Element => {
+    const [showInviteForm, setShowInviteForm] = useState(false)
+
+    const InviteForm = () => {
+        return (
+            <div>
+                <Form layout="vertical">
+                    <Form.Item label="Name" name="name">
+                        <Input bordered={false}></Input>
+                    </Form.Item>
+                    <Form.Item label="Family Name" name="familyName">
+                        <Input bordered={false}></Input>
+                    </Form.Item>
+                    <Form.Item label="email" name="email">
+                        <Input bordered={false}></Input>
+                    </Form.Item>
+                </Form>
+            </div>
+        )
+    }
+
     return (
         <div>
+            <Drawer
+                width="450px"
+                placement="right"
+                title="New Invite"
+                closable={true}
+                visible={showInviteForm}
+            >
+                <DrawerHeader
+                    title="New Invite"
+                    onClose={() => null}
+                    onSave={() => null}
+                />
+                <InviteForm />
+            </Drawer>
             <div className="flex justify-between items-center">
                 <div>
                     <h2>Invites list</h2>
                     <h3>{`${data.length} Total sent invites`}</h3>
                 </div>
-                <Button className="rounded-lg border-blue-400 text-blue-400">
+                <Button
+                    onClick={() => setShowInviteForm(true)}
+                    className="rounded-lg border-blue-400 text-blue-400"
+                >
                     new Invite
                 </Button>
             </div>
