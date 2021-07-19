@@ -1,5 +1,8 @@
 import { Button, Drawer, Form, Input, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import { bizService } from '../../../../services/biz.service'
+import { firebaseManager } from '../../../../services/firebase.service'
 
 const data = [
     {
@@ -22,6 +25,7 @@ interface DrawerHeaderProps {
     title: string
     onClose: () => void
     onSave: () => void
+    isSaving: boolean
 }
 
 const DrawerHeader = (props: DrawerHeaderProps) => {
@@ -44,7 +48,12 @@ const DrawerHeader = (props: DrawerHeaderProps) => {
                         />
                     </svg>
                 </div>
-                <Button className="rounded-lg" type="primary" htmlType="submit">
+                <Button
+                    loading={props.isSaving}
+                    className="rounded-lg"
+                    type="primary"
+                    htmlType="submit"
+                >
                     Save changes
                 </Button>
             </div>
@@ -57,9 +66,20 @@ const DrawerHeader = (props: DrawerHeaderProps) => {
 export default (): JSX.Element => {
     const [showInviteForm, setShowInviteForm] = useState(false)
     const [form] = Form.useForm()
+    const [saving, setSaving] = useState(false)
 
     const onFinish = (values: any) => {
-        console.log(values)
+        setSaving(true)
+
+        firebaseManager
+            .createInvitation({
+                ...values,
+                id: bizService.generateId(JSON.stringify(values)).toUpperCase()
+            })
+            .then(result => {
+                setSaving(false)
+                setShowInviteForm(false)
+            })
     }
     const InviteForm = () => {
         return (
@@ -67,16 +87,41 @@ export default (): JSX.Element => {
                 <Form form={form} onFinish={onFinish} layout="vertical">
                     <DrawerHeader
                         title="New Invite"
+                        isSaving={saving}
                         onClose={() => setShowInviteForm(false)}
                         onSave={() => null}
                     />
-                    <Form.Item label="Name" name="name">
+                    <Form.Item
+                        rules={[
+                            { required: true, message: 'Please input a name!' }
+                        ]}
+                        label="Name"
+                        name="name"
+                    >
                         <Input bordered={false}></Input>
                     </Form.Item>
-                    <Form.Item label="Family Name" name="familyName">
+                    <Form.Item
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input the family name'
+                            }
+                        ]}
+                        label="Family Name"
+                        name="familyName"
+                    >
                         <Input bordered={false}></Input>
                     </Form.Item>
-                    <Form.Item label="email" name="email">
+                    <Form.Item
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please enter user email'
+                            }
+                        ]}
+                        label="email"
+                        name="email"
+                    >
                         <Input bordered={false}></Input>
                     </Form.Item>
                 </Form>
