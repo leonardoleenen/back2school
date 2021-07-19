@@ -54,7 +54,6 @@ export default (): JSX.Element => {
                 )
             })
     }, [])
-
     useEffect(() => {
         UIHeaderStore.update(s => {
             s.selectedTab = 'ACCESS'

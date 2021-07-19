@@ -9,6 +9,17 @@ class InviteService {
             .get()
             .then(snapShot => snapShot.docs.map(doc => doc.data()))
     }
+
+    getInvite(id) {
+        return firebaseManager
+            .getDB()
+            .collection('invites')
+            .doc(id)
+            .get()
+            .then(doc => {
+                return doc.data()
+            })
+    }
 }
 
 export const inviteService = new InviteService()

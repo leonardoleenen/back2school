@@ -54,7 +54,9 @@ export default (props: Props): JSX.Element => {
                             onClick={success}
                             data-clipboard-text={`${
                                 typeof window !== undefined &&
-                                window.location.origin + '/sigin/' + record.id
+                                window.location.origin +
+                                    '/register?id=' +
+                                    record.id
                             }`}
                         >
                             <svg
