@@ -1,10 +1,15 @@
-import { Table } from 'antd'
+import { Table, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import { firebaseManager } from '../../../../services/firebase.service'
+import ClipboardJS from 'clipboard'
 
 interface Props {
     className?: string
+}
+
+const success = () => {
+    message.success('Success!! the link invite is in your clipboard')
 }
 
 export default (props: Props): JSX.Element => {
@@ -18,9 +23,9 @@ export default (props: Props): JSX.Element => {
             .onSnapshot(qs => {
                 setList(qs.docs.map(d => d.data()))
             })
+        const clip = new ClipboardJS('.clp')
     }, [])
 
-    console.log(list)
     return (
         <div className={props.className}>
             <div>
@@ -43,8 +48,15 @@ export default (props: Props): JSX.Element => {
                 <Table.Column title="Parent" dataIndex="name" />
                 <Table.Column title="Email" dataIndex="email" />
                 <Table.Column
-                    render={(text, record) => (
-                        <div>
+                    render={(text, record: any) => (
+                        <div
+                            className="clp"
+                            onClick={success}
+                            data-clipboard-text={`${
+                                typeof window !== undefined &&
+                                window.location.origin + '/sigin/' + record.id
+                            }`}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-6 w-6"

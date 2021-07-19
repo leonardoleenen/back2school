@@ -1,4 +1,5 @@
 import { Divider } from 'antd'
+import moment from 'moment'
 import React, { Children, useEffect, useState } from 'react'
 import InviteList from '../../components/Backoffice/Access/InviteList'
 import InvitesPending from '../../components/Backoffice/Access/InvitesPending'
@@ -19,6 +20,7 @@ const Container = ({ children }) => {
 export default (): JSX.Element => {
     const [qtyPending, setQtyPending] = useState(0)
     const [qtyTotal, setQtyTotal] = useState(0)
+    const [qtyToday, setQtyToday] = useState(0)
 
     useEffect(() => {
         firebaseManager
@@ -34,6 +36,22 @@ export default (): JSX.Element => {
             .collection('invites')
             .onSnapshot(qs => {
                 setQtyTotal(qs.docs.map(d => d.data()).length)
+            })
+
+        firebaseManager
+            .getDB()
+            .collection('invites')
+            .where(
+                'createdAt',
+                '>=',
+                moment().startOf('day').toDate().getTime()
+            )
+            .onSnapshot(qs => {
+                setQtyToday(
+                    qs.docs
+                        .map(d => d.data())
+                        .filter(d => d.status === 'PENDING').length
+                )
             })
     }, [])
 
@@ -53,7 +71,7 @@ export default (): JSX.Element => {
                     cards={[
                         <Card
                             key="card1"
-                            title="2 invites"
+                            title={`${qtyToday} invites`}
                             subTitle="Pending"
                             description="Today"
                             isImportant={true}

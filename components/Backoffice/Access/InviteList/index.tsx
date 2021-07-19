@@ -3,23 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import { bizService } from '../../../../services/biz.service'
 import { firebaseManager } from '../../../../services/firebase.service'
-
-const data = [
-    {
-        date: '2021-07-22 22:21:34',
-        name: 'Mariano Perez',
-        familyName: 'Perez Conrado',
-        email: 'perez@gmail.com',
-        status: 'PENDING' // PENDING ACEPTED CANCELLED
-    },
-    {
-        date: '2021-07-22 22:21:34',
-        name: 'Martin Martinez',
-        familyName: 'Mrtinez',
-        email: 'martin@gmail.com',
-        status: 'ACCEPTED' // PENDING ACEPTED CANCELLED
-    }
-]
+import moment from 'moment'
 
 interface DrawerHeaderProps {
     title: string
@@ -67,6 +51,15 @@ export default (): JSX.Element => {
     const [showInviteForm, setShowInviteForm] = useState(false)
     const [form] = Form.useForm()
     const [saving, setSaving] = useState(false)
+    const [list, setList] = useState([])
+    useEffect(() => {
+        firebaseManager
+            .getDB()
+            .collection('invites')
+            .onSnapshot(qs => {
+                setList(qs.docs.map(d => d.data()))
+            })
+    }, [])
 
     const onFinish = (values: any) => {
         setSaving(true)
@@ -130,7 +123,7 @@ export default (): JSX.Element => {
     }
 
     return (
-        <div>
+        <div className="w-1/2">
             <Drawer
                 width="450px"
                 placement="right"
@@ -143,7 +136,7 @@ export default (): JSX.Element => {
             <div className="flex justify-between items-center">
                 <div>
                     <h2>Invites list</h2>
-                    <h3>{`${data.length} Total sent invites`}</h3>
+                    <h3>{`${list.length} Total sent invites`}</h3>
                 </div>
                 <Button
                     onClick={() => setShowInviteForm(true)}
@@ -153,7 +146,7 @@ export default (): JSX.Element => {
                 </Button>
             </div>
             <div>
-                <Table dataSource={data} pagination={false}>
+                <Table dataSource={list} pagination={false}>
                     <Table.Column
                         width="3%"
                         render={(text, record: any) => (
@@ -166,7 +159,16 @@ export default (): JSX.Element => {
                             ></div>
                         )}
                     />
-                    <Table.Column title="Date" dataIndex="date" />
+                    <Table.Column
+                        title="Date"
+                        render={(text, record: any) => (
+                            <div>
+                                {moment(record.createdAt).format(
+                                    'Do MMM, YYYY hh:mm:ss'
+                                )}
+                            </div>
+                        )}
+                    />
                     <Table.Column title="Name" dataIndex="name" />
                     <Table.Column title="Family Name" dataIndex="familyName" />
                     <Table.Column title="Email" dataIndex="email" />
