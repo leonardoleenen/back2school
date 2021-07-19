@@ -28,7 +28,7 @@ const DrawerHeader = (props: DrawerHeaderProps) => {
     return (
         <div className="mb-20">
             <div className="flex justify-between items-center">
-                <div className="cursor-pointer">
+                <div className="cursor-pointer" onClick={props.onClose}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
@@ -44,7 +44,7 @@ const DrawerHeader = (props: DrawerHeaderProps) => {
                         />
                     </svg>
                 </div>
-                <Button className="rounded-lg" type="primary">
+                <Button className="rounded-lg" type="primary" htmlType="submit">
                     Save changes
                 </Button>
             </div>
@@ -56,11 +56,20 @@ const DrawerHeader = (props: DrawerHeaderProps) => {
 }
 export default (): JSX.Element => {
     const [showInviteForm, setShowInviteForm] = useState(false)
+    const [form] = Form.useForm()
 
+    const onFinish = (values: any) => {
+        console.log(values)
+    }
     const InviteForm = () => {
         return (
             <div>
-                <Form layout="vertical">
+                <Form form={form} onFinish={onFinish} layout="vertical">
+                    <DrawerHeader
+                        title="New Invite"
+                        onClose={() => setShowInviteForm(false)}
+                        onSave={() => null}
+                    />
                     <Form.Item label="Name" name="name">
                         <Input bordered={false}></Input>
                     </Form.Item>
@@ -84,11 +93,6 @@ export default (): JSX.Element => {
                 closable={true}
                 visible={showInviteForm}
             >
-                <DrawerHeader
-                    title="New Invite"
-                    onClose={() => null}
-                    onSave={() => null}
-                />
                 <InviteForm />
             </Drawer>
             <div className="flex justify-between items-center">
