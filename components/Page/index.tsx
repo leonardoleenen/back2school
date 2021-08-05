@@ -5,10 +5,7 @@ import React from 'react'
 const Page = (props): JSX.Element => {
     return (
         <div className="flex justify-center items-center h-screen">
-            <div
-                className="border sm:p-4 rounded-lg h-screen"
-                style={{ minWidth: '410px' }}
-            >
+            <div className="border sm:p-4 rounded-lg h-screen">
                 {props.children}
             </div>
         </div>
